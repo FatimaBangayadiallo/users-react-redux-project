@@ -1,22 +1,32 @@
-import React from 'react';
-import User from './user.jsx';
-import {Container,Row} from 'react-bootstrap';
-function Display (props){
- return(
-   <Container>
-          <Row>
-           {
-             props.date.map((user) =>{
-               return <User userInfo={user} key={user.id} deleteUser ={props.deleteUser} editUser = {props.editUser} />
-             })
-           }
+import React from "react";
+import User from "./user.jsx";
+import { Container, Row } from "react-bootstrap";
+import { connect } from "react-redux";
 
-          </Row>
+function Display(props) {
+  console.log(props);
+  return (
+    <Container>
+      <Row>
+        {props.utilisateur.map((user) => {
+          return (
+            <User
+              userInfo={user}
+              key={user.id}
+              deleteUser={props.deleteUser}
+              editUser={props.editUser}
+            />
+          );
+        })}
+      </Row>
+    </Container>
+  );
+}
 
-   </Container>
-
-
- );
-
+const mapStateToProps = (state) => {
+  return {
+    utilisateur: state.utilisateur,
+  };
 };
-export default Display;
+
+export default connect(mapStateToProps)(Display);

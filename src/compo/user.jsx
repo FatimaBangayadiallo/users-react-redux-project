@@ -1,45 +1,60 @@
-import React ,{useState} from 'react';
-import {Button ,Col,Card,Modal } from 'react-bootstrap';
-import Edit from './EditForm.jsx';
+import React, { useState } from "react";
+import { Button, Col, Card, Modal } from "react-bootstrap";
+import Edit from "./EditForm.jsx";
+import { connect } from "react-redux";
+import { deleteUser } from "../actions/userAction";
 
-
-const User = (props) =>{
+const User = (props) => {
   const [show, setShow] = useState(false);
 
-   const handleClose = () => setShow(false);
-   const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const  handleDelete = (e) =>{
+  const handleDelete = (e) => {
     e.preventDefault();
+    console.log("e bien moi je suis un props", props.userInfo.id);
     props.deleteUser(props.userInfo.id);
-
-
   };
-  return(
-   <>
-   <Modal show={show} onHide={handleClose}>
+  return (
+    <>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Edit
             userInfo={props.userInfo}
-            editUser ={props.editUser}
-            closeModal= {handleClose} />
+            editUser={props.editUser}
+            closeModal={handleClose}
+          />
         </Modal.Body>
-
       </Modal>
 
-
-    <Col md="4" style={{marginBottom: "1rem"}}>
-      <h1>login infos:</h1>
-      <p>email : {props.userInfo.email}</p>
-      <p>password: {props.userInfo.password}</p>
-      <Button variant="primary" size="sm" style={{width: "4rem"}} onClick={handleShow}>Edit</Button>
-      <Button variant="danger" size="sm"  style={{marginLeft: "2rem"}} onClick={handleDelete}>Delete</Button>
-    </Col>
-  </>
-
+      <Col md="4" style={{ marginBottom: "1rem" }}>
+        <h1>login infos:</h1>
+        <p>email : {props.userInfo.email}</p>
+        <p>password: {props.userInfo.password}</p>
+        <Button
+          variant="primary"
+          size="sm"
+          style={{ width: "4rem" }}
+          onClick={handleShow}
+        >
+          Edit
+        </Button>
+        <Button
+          variant="danger"
+          size="sm"
+          style={{ marginLeft: "2rem" }}
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+      </Col>
+    </>
   );
 };
-export default User;
+const mapDispatchToProps = {
+  deleteUser,
+};
+export default connect(null, mapDispatchToProps)(User);
